@@ -25,7 +25,7 @@ Graph-Transform provides an intuitive framework for constructing data tansformat
 ## Installation
 
 ```bash
-npm install trasnformative
+npm install graph-transform
 ```
 
 ## Concepts
