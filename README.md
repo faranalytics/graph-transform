@@ -1,14 +1,14 @@
 # Graph-Transform
 
-Graph-Transform provides a framework for building type-safe data transformation graphs based on Node streams.
+Graph-Transform provides a framework for building type-safe data transformation graphs based on Node.js streams.
 
 ## Introduction
 
-Graph-Transform provides an intuitive framework for constructing data tansformation graphs using native Node streams.  You can use the built-in library of commonly used `Transforms` or implement your own.
+Graph-Transform provides an intuitive framework for constructing data tansformation graphs using native Node.js streams.  You can use the built-in library of commonly used `Transforms` or implement your own.
 
 ### Features
 
-- Consume any native Node Readable, Writable, Duplex, or Transform stream and add it to your graph.
+- Consume any native Node.js Readable, Writable, Duplex, or Transform stream and add it to your graph.
 - Error propagation and selective termination of inoperable graph components.
 - Automatic message queueing in order to assist with handling of backpressure.
 
