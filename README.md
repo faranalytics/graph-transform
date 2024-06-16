@@ -96,4 +96,4 @@ Backpressure is an important security concern associated with streaming APIs.  G
 ## Best Practices
 
 ### Avoid reuse of Transform Instances
-Reusing the same Transform instance can result in unexpected phenomenon.  If the same Transform instance is used in different locations in your graph, you need to think carefully about the resulting edges that are connected to both the input and the output of the Transform.  Most of the time if you need to use the same class of Transform more than once, it's advisable to create a new instance for each use.
+Reusing the same Transform instance can result in unexpected phenomenon.  If the same Transform instance is used in different locations in your graph, you need to think carefully about the resulting edges that are connected to both the input and the output of the Transform instance.  Most of the time if you need to use the same class of Transform more than once, it's advisable to create a new instance for each use.
