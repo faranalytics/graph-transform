@@ -91,4 +91,9 @@ const socketHandler = new Transform<Buffer, Buffer>(socket);
 
 ## Backpressure
 
-Backpressure is an important security concern associated with streaming APIs.  Graph-Transform respects backpressue; when a stream is draining it will queue messages until a `drain` event is emitted by the `Transform's` stream.  On each call to `transform.write` the `transform.queueSize` property will be synchronously incremented in order to reflect the current size of the queue.  For streams not in object mode, the queue size is calculated using the `length` property of the logged `string` or `Buffer`.  For object mode streams the queue size is equal to the number of logged objects.  Your application can optionally monitor the size of the queue and respond appropriately.
+Backpressure is an important security concern associated with streaming APIs.  Graph-Transform respects backpressue; when a stream is draining it will queue messages until a `drain` event is emitted by the `Transform's` stream.  On each call to `transform.write` the `transform.queueSize` property will be synchronously incremented in order to reflect the current size of the queue.  For object mode streams the queue size is equal to the number of logged objects.  For streams not in object mode, the queue size is calculated using the `length` property of the logged `string` or `Buffer`.   Your application can optionally monitor the size of the queue and respond appropriately.
+
+## Best Practices
+
+### Avoid reuse of Transforms
+Resuse of Transforms can result in unexpected phenomenon.  If the same Transform instance is used in different locations in your graph, you need to think carefully about the resulting edges that are connected to both the input and the output of the Transform.  Most of the time if you need to use the same class of Transform more than once, it's advisable to create a new instance for each use.
