@@ -98,6 +98,8 @@ Backpressure is an important security concern associated with streaming APIs.
 
 Graph-Transform respects backpressue; when a stream is draining it will queue messages until a `drain` event is emitted by the `Transform's` stream.  On each call to `transform.write` the `transform.queueSize` property will be synchronously incremented in order to reflect the current size of the queue.  For object mode streams the queue size is equal to the number of logged objects.  For streams not in object mode, the queue size is calculated using the `length` property of the logged `string` or `Buffer`.   Your application can optionally monitor the size of the queue and respond appropriately.
 
+If you have a stream that is backpressuring, you can increase the high water mark on the stream in order to mitigate drain events.
+
 ## Best Practices
 
 ### Avoid Reuse of Transform Instances (*unless you know what you are doing*)
