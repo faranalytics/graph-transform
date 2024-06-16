@@ -8,7 +8,7 @@ export interface ObjectToJSONOptions {
 
 export class ObjectToJSON extends Transform<object, string> {
 
-    constructor({ replacer, space }: ObjectToJSONOptions = {}, options: s.TransformOptions) {
+    constructor({ replacer, space }: ObjectToJSONOptions = {}, options?: s.TransformOptions) {
         super(new s.Transform({
             ...options, ...{
                 writableObjectMode: true,

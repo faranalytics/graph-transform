@@ -7,7 +7,7 @@ export interface BufferToStringOptions {
 
 export class BufferToString extends Transform<Buffer, string> {
 
-    constructor({ encoding }: BufferToStringOptions = { encoding: 'utf-8' }, options: s.TransformOptions) {
+    constructor({ encoding }: BufferToStringOptions = { encoding: 'utf-8' }, options?: s.TransformOptions) {
         super(new s.Transform({
             ...options, ...{
                 writableObjectMode: true,

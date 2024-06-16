@@ -7,7 +7,7 @@ export interface JSONToObjectOptions {
 
 export class JSONToObject extends Transform<string, object> {
 
-    constructor({ reviver }: JSONToObjectOptions = {}, options: s.TransformOptions) {
+    constructor({ reviver }: JSONToObjectOptions = {}, options?: s.TransformOptions) {
         super(new s.Transform({
             ...options, ...{
                 writableObjectMode: false,
