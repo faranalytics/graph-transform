@@ -43,37 +43,29 @@ export class Transform<InT, OutT> {
     }
 
     protected async write(data: InT, encoding?: BufferEncoding): Promise<void> {
-        try {
-            if (!this.stream.closed) {
-                if (this.stream instanceof s.Writable && !this.stream.writableNeedDrain) {
-                    this.queue.push(data);
-                    if (data instanceof Buffer || typeof data == 'string') {
-                        this.queueSize = this.queueSize + data.length;
-                    }
-                    else {
-                        this.queueSize = this.queueSize + 1;
-                    }
-                    while (this.queue.length) {
-                        const data = this.queue.shift();
-                        if (data instanceof Buffer || typeof data == 'string') {
-                            this.queueSize = this.queueSize - data.length;
-                        }
-                        else {
-                            this.queueSize = this.queueSize - 1;
-                        }
-                        if (!this.stream.write(data, encoding ?? 'utf-8')) {
-                            await new Promise((r, e) => this.stream.once('drain', r).once('error', e));
-                        }
-                    }
+        if (!this.stream.closed && this.stream instanceof s.Writable && !this.stream.writableNeedDrain) {
+            this.queue.push(data);
+            if (data instanceof Buffer || typeof data == 'string') {
+                this.queueSize = this.queueSize + data.length;
+            }
+            else {
+                this.queueSize = this.queueSize + 1;
+            }
+            while (this.queue.length) {
+                const data = this.queue.shift();
+                if (data instanceof Buffer || typeof data == 'string') {
+                    this.queueSize = this.queueSize - data.length;
                 }
                 else {
-                    this.queue.push(data);
+                    this.queueSize = this.queueSize - 1;
+                }
+                if (!this.stream.write(data, encoding ?? 'utf-8')) {
+                    await new Promise((r, e) => this.stream.once('drain', r).once('error', e));
                 }
             }
         }
-        catch (err) {
-            console.error(err);
-            throw err;
+        else {
+            this.queue.push(data);
         }
     }
 }
