@@ -36,9 +36,9 @@ A `Transform` is a node in a graph-like data pipeline. Each `Transform` is repon
 
 ## API
 
-### The `Transform` class.
+### The Transform class.
 
-**new graph.Transform\<InT, OutT\>(stream)**
+**new graph-transform.Transform\<InT, OutT\>(stream)**
 - `stream` `<stream.Writable | stream.Readable>` An instance of a `Writable`, `Readable`, `Duplex`, or `Transform` Node.js stream.
 
 **transform.connect\<T extends Transform\<OutT, unknown\>\>(...transforms: Array\<T\>)**
