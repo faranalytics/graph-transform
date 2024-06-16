@@ -45,7 +45,7 @@ export class Transform<InT, OutT> {
     protected async write(data: InT, encoding?: BufferEncoding): Promise<void> {
         if (!this.stream.closed && this.stream instanceof s.Writable && !this.stream.writableNeedDrain) {
             this.queue.push(data);
-            if (data instanceof Buffer || typeof data == 'string') {
+            if (data instanceof Buffer || typeof data == 'string' && !this.stream.writableObjectMode) {
                 this.queueSize = this.queueSize + data.length;
             }
             else {
@@ -53,7 +53,7 @@ export class Transform<InT, OutT> {
             }
             while (this.queue.length) {
                 const data = this.queue.shift();
-                if (data instanceof Buffer || typeof data == 'string') {
+                if (data instanceof Buffer || typeof data == 'string' && !this.stream.writableObjectMode) {
                     this.queueSize = this.queueSize - data.length;
                 }
                 else {
