@@ -1,13 +1,14 @@
 # Graph-Transform
 
-Graph-Transform provides a framework for building type-safe data transformation graphs based on Node Streams.
+Graph-Transform provides a framework for building type-safe data transformation graphs based on Node streams.
 
 ## Introduction
 
+Graph-Transform provides an intuitive framework for constructing data tansformation graphs using native Node streams.  You can use the built-in library of commonly used `Transforms` or implement your own.
 
 ### Features
 
-- Consume any native Node Writable or Readable stream and add it to your graph.
+- Consume any native Node Readable, Writable, Duplex, or Transform stream and add it to your graph.
 - Error propagation and selective termination of inoperable graph components.
 - Automatic message queueing in order to assist with handling of backpressure.
 
@@ -19,6 +20,7 @@ Graph-Transform provides a framework for building type-safe data transformation 
 - [How to Implement a Transform](#how-to-implement-a-transform)
 - [How to Consume a stream.Duplex](#how-to-consume-a-streamduplex)
 - [Backpressue](#backpressure)
+- [Best Practices](#best-practices)
 
 ## Installation
 
@@ -65,13 +67,15 @@ For example, the following `StringToNumber` implementation will convert a numeri
 ```ts
 class StringToNumber extends Transform<string, number> {
 
-    constructor() {
+    constructor(options: stream.TransformOptions) {
         super(new stream.Transform({
-            writableObjectMode: true,
-            readableObjectMode: true,
-            transform: (chunk: string, encoding: BufferEncoding, callback: stream.TransformCallback) => {
-                const result = parseFloat(chunk.toString());
-                callback(null, result);
+            ...options, ...{
+                writableObjectMode: true,
+                readableObjectMode: true,
+                transform: (chunk: string, encoding: BufferEncoding, callback: stream.TransformCallback) => {
+                    const result = parseFloat(chunk.toString());
+                    callback(null, result);
+                }
             }
         }));
     }
