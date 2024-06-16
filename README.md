@@ -100,5 +100,5 @@ If you have a stream that is backpressuring, you can increase the high water mar
 
 ## Best Practices
 
-### Avoid Reuse of Transform Instances (*unless you know what you are doing*)
+### Avoid Reuse of Transform Instances (*unless you know what you are doing!*)
 Reusing the same Transform instance can result in unexpected phenomena.  If the same Transform instance is used in different locations in your graph, you need to think carefully about the resulting edges that are connected to both the input and the output of the Transform instance.  Most of the time if you need to use the same class of Transform more than once, it's advisable to create a new instance for each use.
