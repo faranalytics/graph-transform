@@ -60,16 +60,16 @@ In order to implement a `Transform`, extend the `graph-transform.Transform` clas
 
 For example, the following `StringToNumber` implementation will convert a numeric string to a number.  
 
-> NB: `writableObjectMode` and `readableObjectMode` are both set to true in this example; hence, the inputs and outputs will be handled as objects.  It's important that the object modes reflect the inputs and outputs of your `Transform`.
+> NB: `writableObjectMode` and `readableObjectMode` are both set to true in this example; hence, the Node.js stream implementation will handle the input and output as objects.  It's important that `writableObjectMode` and `readableObjectMode` accurately reflect the input and output types of your `Transform`.
 
 ```ts
-class StringToNumber extends Transform<Buffer, number> {
+class StringToNumber extends Transform<string, number> {
 
     constructor() {
         super(new stream.Transform({
             writableObjectMode: true,
             readableObjectMode: true,
-            transform: (chunk: Buffer, encoding: BufferEncoding, callback: stream.TransformCallback) => {
+            transform: (chunk: string, encoding: BufferEncoding, callback: stream.TransformCallback) => {
                 const result = parseFloat(chunk.toString());
                 callback(null, result);
             }

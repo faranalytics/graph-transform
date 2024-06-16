@@ -1,13 +1,6 @@
-export class QueueSizeLimitExceededError extends Error {
+export class ConnectError extends Error {
     constructor(message: string) {
         super(message);
-        this.name = "QueueSizeLimitExceededError";
-    }
-}
-
-export class AlreadyConnectedError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = "AlreadyConnectedError";
+        this.name = "ConnectError";
     }
 }
