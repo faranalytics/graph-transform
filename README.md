@@ -1,6 +1,6 @@
 # Graph-Transform
 
-Graph-Transform provides a framework for building type-safe graphs based on Node Streams.
+Graph-Transform provides a framework for building type-safe data transformation graphs based on Node Streams.
 
 ## Introduction
 
