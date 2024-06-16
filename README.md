@@ -18,7 +18,7 @@ Graph-Transform provides an intuitive framework for constructing data tansformat
 - [Concepts](#concepts)
 - [API](#api)
 - [How to Implement a Transform](#how-to-implement-a-transform)
-- [How to Consume a stream.Duplex](#how-to-consume-a-streamduplex)
+- [How to Consume a Readable, Writable, Duplex, or Transform Native Node.js Stream](#how-to-consume-a-readable-writable-duplex-or-transform-native-nodejs-stream)
 - [Backpressue](#backpressure)
 - [Best Practices](#best-practices)
 
@@ -56,7 +56,7 @@ Returns: `<Transform<InT, OutT>>`
 
 Returns: `<Promise<void>>`
 
-## How to Implement a graph-transform.Transform
+## How to Implement a Transform
 
 In order to implement a `Transform`, extend the `graph-transform.Transform` class and pass a Node.js `stream.Transform` implementation to the super's constructor.  
 
@@ -82,9 +82,9 @@ class StringToNumber extends Transform<string, number> {
 }
 ```
 
-## How to Consume a stream.Duplex
+## How to Consume a Readable, Writable, Duplex, or Transform Native Node.js Stream
 
-In this hypothetical example a type-safe `Transform` is constructed from a `net.Socket`.  The resulting `Transform` instance can be used in construction of a transformation graph.
+In this hypothetical example a type-safe `Transform` is constructed from a `net.Socket`.  The resulting `Transform` instance can be used in a data transformation graph.
 
 ```ts
 net.createServer((socket: net.Socket) => socket.pipe(socket)).listen(3000);
@@ -98,5 +98,5 @@ Backpressure is an important security concern associated with streaming APIs.  G
 
 ## Best Practices
 
-### Avoid reuse of Transform Instances (unless you know what you are doing)
+### Avoid Reuse of Transform Instances (unless you know what you are doing)
 Reusing the same Transform instance can result in unexpected phenomenon.  If the same Transform instance is used in different locations in your graph, you need to think carefully about the resulting edges that are connected to both the input and the output of the Transform instance.  Most of the time if you need to use the same class of Transform more than once, it's advisable to create a new instance for each use.
