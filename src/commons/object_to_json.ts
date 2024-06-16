@@ -8,12 +8,14 @@ export interface ObjectToJSONOptions {
 
 export class ObjectToJSON extends Transform<object, string> {
 
-    constructor({ replacer, space }: ObjectToJSONOptions = {}) {
+    constructor({ replacer, space }: ObjectToJSONOptions = {}, options: s.TransformOptions) {
         super(new s.Transform({
-            writableObjectMode: true,
-            readableObjectMode: false,
-            transform: async (chunk: object, _encoding: BufferEncoding, callback: s.TransformCallback) => {
-                callback(null, JSON.stringify(chunk, replacer, space));
+            ...options, ...{
+                writableObjectMode: true,
+                readableObjectMode: false,
+                transform: async (chunk: object, _encoding: BufferEncoding, callback: s.TransformCallback) => {
+                    callback(null, JSON.stringify(chunk, replacer, space));
+                }
             }
         }));
     }

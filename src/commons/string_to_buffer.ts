@@ -7,12 +7,14 @@ export interface StringToBufferOptions {
 
 export class StringToBuffer extends Transform<string, Buffer> {
 
-    constructor({ encoding }: StringToBufferOptions = { encoding: 'utf-8' }) {
+    constructor({ encoding }: StringToBufferOptions = { encoding: 'utf-8' }, options: s.TransformOptions) {
         super(new s.Transform({
-            writableObjectMode: false,
-            readableObjectMode: true,
-            transform: async (chunk: string, _encoding: BufferEncoding, callback: s.TransformCallback) => {
-                callback(null, Buffer.from(chunk, _encoding ?? encoding));
+            ...options, ...{
+                writableObjectMode: false,
+                readableObjectMode: true,
+                transform: async (chunk: string, _encoding: BufferEncoding, callback: s.TransformCallback) => {
+                    callback(null, Buffer.from(chunk, _encoding ?? encoding));
+                }
             }
         }));
     }
