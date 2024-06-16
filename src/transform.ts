@@ -1,14 +1,14 @@
 import * as s from 'node:stream';
 import { ConnectError } from './errors';
 
-export class Transform<InT, OutT> {
+export class Transform<InT, OutT, StreamT extends s.Writable | s.Readable = s.Transform> {
 
-    protected stream: s.Writable | s.Readable;
+    protected stream: StreamT;
     protected queue: Array<InT>;
     protected connected: boolean;
     protected queueSize: number;
 
-    constructor(stream: s.Writable | s.Readable) {
+    constructor(stream: StreamT) {
         this.stream = stream;
         this.queue = [];
         this.connected = false;
@@ -17,7 +17,7 @@ export class Transform<InT, OutT> {
         this.stream.once('error', (err: Error) => console.error);
     }
 
-    public connect<T extends Transform<OutT, unknown>>(...transforms: Array<T>): typeof this {
+    public connect<T extends Transform<OutT, unknown, s.Writable | s.Readable>>(...transforms: Array<T>): typeof this {
         for (const transform of transforms) {
             if (this.stream instanceof s.Readable && transform.stream instanceof s.Writable) {
                 this.stream?.pipe(transform.stream);
@@ -33,7 +33,7 @@ export class Transform<InT, OutT> {
         return this;
     }
 
-    public disconnect<T extends Transform<OutT, unknown>>(...transforms: Array<T>): typeof this {
+    public disconnect<T extends Transform<OutT, unknown, s.Writable | s.Readable>>(...transforms: Array<T>): typeof this {
         for (const transform of transforms) {
             if (this.stream instanceof s.Readable && transform.stream instanceof s.Writable) {
                 this.stream.unpipe(transform.stream);
