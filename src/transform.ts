@@ -18,9 +18,6 @@ export class Transform<InT, OutT> {
     }
 
     public connect<T extends Transform<OutT, unknown>>(...transforms: Array<T>): typeof this {
-        if (this.connected) {
-            throw new ConnectError(`This instance of ${this.constructor.name} is already connected; create a new instance of the Transform.`)
-        }
         for (const transform of transforms) {
             if (this.stream instanceof s.Readable && transform.stream instanceof s.Writable) {
                 this.stream?.pipe(transform.stream);

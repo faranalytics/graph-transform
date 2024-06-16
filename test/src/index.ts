@@ -3,8 +3,6 @@ import { Transform, StringToBuffer, BufferToString, ObjectToJSON, JSONToObject }
 import { TemporalTransform } from "./temporal_transform.js";
 import { NullTransform } from "./null_transform.js";
 
-
-
 async function test1() {
 
     const temporalTransform = new TemporalTransform({ time: 1000 });
@@ -13,7 +11,6 @@ async function test1() {
     const jsonToObject = new JSONToObject();
     const stringToBuffer = new StringToBuffer();
     const bufferToString = new BufferToString();
-    const nullTransform = new NullTransform();
 
     net.createServer((socket: net.Socket) => socket.pipe(socket)).listen(3000);
     const socket = net.createConnection({ port: 3000 });
@@ -45,7 +42,6 @@ async function test2() {
     const bufferToString = new BufferToString();
     const nullTransform = new NullTransform();
 
-
     net.createServer((socket: net.Socket) => socket.pipe(socket)).listen(3001);
     const socket = net.createConnection({ port: 3001 });
     await new Promise((r, e) => socket.once('connect', r).once('error', e));
@@ -64,10 +60,8 @@ async function test2() {
 }
 
 function main() {
-
     test1();
     test2();
-
 }
 
 main();
