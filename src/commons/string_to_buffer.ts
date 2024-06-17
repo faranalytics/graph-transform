@@ -1,5 +1,5 @@
-import * as s from "node:stream";
-import { Transform } from "../transform";
+import * as s from 'node:stream';
+import { Transform } from '../transform';
 
 export interface StringToBufferOptions {
     encoding?: BufferEncoding;

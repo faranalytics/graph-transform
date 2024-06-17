@@ -1,8 +1,8 @@
-import * as s from "node:stream";
-import { Transform } from "../transform";
+import * as s from 'node:stream';
+import { Transform } from '../transform';
 
 export interface JSONToObjectOptions {
-    reviver?: (this: any, key: string, value: any) => any;
+    reviver?: (this: unknown, key: string, value: unknown) => unknown;
 }
 
 export class JSONToObject extends Transform<string, object> {

@@ -1,8 +1,8 @@
-import * as s from "node:stream";
-import { Transform } from "../transform";
+import * as s from 'node:stream';
+import { Transform } from '../transform';
 
 export interface ObjectToJSONOptions {
-    replacer?: (this: any, key: string, value: any) => any;
+    replacer?: (this: unknown, key: string, value: unknown) => unknown;
     space?: string | number;
 }
 

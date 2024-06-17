@@ -1,7 +1,7 @@
-import * as net from "node:net";
+import * as net from 'node:net';
 import { Transform, StringToBuffer, BufferToString, ObjectToJSON, JSONToObject } from 'graph-transform';
-import { TemporalTransform } from "./temporal_transform.js";
-import { NullTransform } from "./null_transform.js";
+import { TemporalTransform } from './temporal_transform.js';
+import { NullTransform } from './null_transform.js';
 
 async function test1() {
 
@@ -31,7 +31,7 @@ async function test1() {
                 )
             )
         )
-    )
+    );
 
     transform.write({ 'greeting': 'Hello, World!' });
 }
@@ -53,7 +53,7 @@ async function test2() {
                 nullTransform
             )
         )
-    )
+    );
 
     transform.write('0'.repeat(1e6));
     transform.write('0'.repeat(1e6));

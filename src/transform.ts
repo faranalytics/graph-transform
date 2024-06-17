@@ -1,28 +1,27 @@
 import * as s from 'node:stream';
-import { ConnectError } from './errors';
 
-export class Transform<InT, OutT, StreamT extends s.Writable | s.Readable = s.Transform> {
+export class Transform<InT, OutT> {
 
-    protected stream: StreamT;
+    protected stream: s.Writable | s.Readable;
     protected queue: Array<InT>;
     protected connected: boolean;
     protected queueSize: number;
 
-    constructor(stream: StreamT) {
+    constructor(stream: s.Writable | s.Readable) {
         this.stream = stream;
         this.queue = [];
         this.connected = false;
         this.queueSize = 0;
 
-        this.stream.once('error', (err: Error) => console.error);
+        this.stream.once('error', console.error);
     }
 
-    public connect<T extends Transform<OutT, unknown, s.Writable | s.Readable>>(...transforms: Array<T>): typeof this {
+    public connect<T extends Transform<OutT, unknown>>(...transforms: Array<T>): typeof this {
         for (const transform of transforms) {
             if (this.stream instanceof s.Readable && transform.stream instanceof s.Writable) {
                 this.stream?.pipe(transform.stream);
                 this.stream.once('error', transform.stream.destroy);
-                transform.stream.once('error', (err: Error) => {
+                transform.stream.once('error', () => {
                     if (this.stream instanceof s.Readable && transform.stream instanceof s.Writable) {
                         this.stream.unpipe(transform.stream);
                     }
@@ -33,7 +32,7 @@ export class Transform<InT, OutT, StreamT extends s.Writable | s.Readable = s.Tr
         return this;
     }
 
-    public disconnect<T extends Transform<OutT, unknown, s.Writable | s.Readable>>(...transforms: Array<T>): typeof this {
+    public disconnect<T extends Transform<OutT, unknown>>(...transforms: Array<T>): typeof this {
         for (const transform of transforms) {
             if (this.stream instanceof s.Readable && transform.stream instanceof s.Writable) {
                 this.stream.unpipe(transform.stream);

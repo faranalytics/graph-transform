@@ -1,5 +1,6 @@
-import * as s from "node:stream";
-import { Transform } from "graph-transform";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import * as s from 'node:stream';
+import { Transform } from 'graph-transform';
 
 
 export class NullTransform extends Transform<any, any> {
