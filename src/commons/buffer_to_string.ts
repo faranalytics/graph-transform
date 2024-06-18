@@ -20,7 +20,7 @@ export class BufferToString extends Transform<Buffer, string> {
         }));
     }
 
-    async write(data: Buffer) {
-        super.write(data);
+    async write(data: Buffer): Promise<void> {
+        await super.write(data);
     }
 }

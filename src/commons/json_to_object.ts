@@ -5,7 +5,7 @@ export interface JSONToObjectOptions {
     reviver?: (this: unknown, key: string, value: unknown) => unknown;
 }
 
-export class JSONToObject extends Transform<string, object> {
+export class JSONToObject<OutT = object> extends Transform<string, OutT> {
 
     constructor({ reviver }: JSONToObjectOptions = {}, options?: s.TransformOptions) {
         super(new s.Transform({
@@ -19,7 +19,7 @@ export class JSONToObject extends Transform<string, object> {
         }));
     }
 
-    async write(data: string) {
-        super.write(data);
+    async write(data: string): Promise<void> {
+        await super.write(data);
     }
 }

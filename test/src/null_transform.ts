@@ -15,4 +15,8 @@ export class NullTransform extends Transform<any, any> {
             })
         );
     }
+
+    async write(data: any): Promise<void> {
+        await super.write(data);
+    }
 }

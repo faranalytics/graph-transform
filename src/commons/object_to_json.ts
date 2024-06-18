@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as s from 'node:stream';
 import { Transform } from '../transform';
 
@@ -6,7 +7,7 @@ export interface ObjectToJSONOptions {
     space?: string | number;
 }
 
-export class ObjectToJSON extends Transform<object, string> {
+export class ObjectToJSON<InT = any> extends Transform<InT, string> {
 
     constructor({ replacer, space }: ObjectToJSONOptions = {}, options?: s.TransformOptions) {
         super(new s.Transform({
@@ -20,7 +21,7 @@ export class ObjectToJSON extends Transform<object, string> {
         }));
     }
 
-    async write(data: object) {
-        super.write(data);
+    async write(data: InT): Promise<void> {
+        await super.write(data);
     }
 }
