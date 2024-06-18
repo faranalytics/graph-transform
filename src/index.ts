@@ -1,8 +1,8 @@
-import { Transform } from './transform';
-import { StringToBuffer } from './commons/string_to_buffer';
-import { BufferToString } from './commons/buffer_to_string';
-import { JSONToObject } from './commons/json_to_object';
-import { ObjectToJSON } from './commons/object_to_json';
+import { Transform } from './transform.js';
+import { StringToBuffer } from './commons/string_to_buffer.js';
+import { BufferToString } from './commons/buffer_to_string.js';
+import { JSONToObject } from './commons/json_to_object.js';
+import { ObjectToJSON } from './commons/object_to_json.js';
 
 export {
     Transform,

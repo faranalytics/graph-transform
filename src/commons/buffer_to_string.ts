@@ -1,6 +1,6 @@
 // eslint-disable-next-line quotes
 import * as s from "node:stream";
-import { Transform } from '../transform';
+import { Transform } from '../transform.js';
 
 export interface BufferToStringOptions {
     encoding?: BufferEncoding;

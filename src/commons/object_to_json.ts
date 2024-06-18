@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as s from 'node:stream';
-import { Transform } from '../transform';
+import { Transform } from '../transform.js';
 
 export interface ObjectToJSONOptions {
     replacer?: (this: unknown, key: string, value: unknown) => unknown;

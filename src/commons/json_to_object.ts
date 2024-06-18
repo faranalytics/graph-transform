@@ -1,5 +1,5 @@
 import * as s from 'node:stream';
-import { Transform } from '../transform';
+import { Transform } from '../transform.js';
 
 export interface JSONToObjectOptions {
     reviver?: (this: unknown, key: string, value: unknown) => unknown;
