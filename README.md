@@ -52,7 +52,7 @@ The size of the queue.  For object mode streams `transform.size` is equal to the
 Returns: `<Transform<InT, OutT>>`
 
 **public transform.disconnect\<T extends Transform\<OutT, unknown\>\>(...transforms: Array\<T\>)**
-- transforms `<Array<T>>` An array of `Transform<OutT, unknown>` to be disconnected to this `Transform`.
+- transforms `<Array<T>>` An array of `Transform<OutT, unknown>` to be disconnected from this `Transform`.
 
 Returns: `<Transform<InT, OutT>>`
 
