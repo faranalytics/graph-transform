@@ -42,6 +42,8 @@ async function test1() {
     );
 
     transform.write(new Greeter());
+    transform.write(new Greeter());
+
 }
 
 
