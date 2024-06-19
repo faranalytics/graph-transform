@@ -19,7 +19,7 @@ Graph-Transform provides an intuitive framework for constructing data tansformat
 - [Concepts](#concepts)
 - [API](#api)
 - [How to Implement a Transform](#how-to-implement-a-transform)
-- [How to Consume a Readable, Writable, Duplex, or Transform Native Node.js Stream](#how-to-consume-a-readable-writable-duplex-or-transform-native-nodejs-stream)
+- [How to Consume a Readable, Writable, Duplex, or Transform Node.js Stream](#how-to-consume-a-readable-writable-duplex-or-transform-nodejs-stream)
 - [Backpressue](#backpressure)
 - [Best Practices](#best-practices)
 
@@ -46,17 +46,17 @@ A `Transform` is a node in a graph-like data pipeline. Each `Transform` is repon
 - `<number>`
 The size of the queue.  For object mode streams `transform.size` is equal to the number of logged objects.  For streams not in object mode, `transform.size` is calculated using the `length` property of the logged `string` or `Buffer`.
 
-**transform.connect\<T extends Transform\<OutT, unknown\>\>(...transforms: Array\<T\>)**
+**public transform.connect\<T extends Transform\<OutT, unknown\>\>(...transforms: Array\<T\>)**
 - transforms `<Array<T>>` An array of `Transform<OutT, unknown>` to be connected to this `Transform`.
 
 Returns: `<Transform<InT, OutT>>`
 
-**transform.disconnect\<T extends Transform\<OutT, unknown\>\>(...transforms: Array\<T\>)**
+**public transform.disconnect\<T extends Transform\<OutT, unknown\>\>(...transforms: Array\<T\>)**
 - transforms `<Array<T>>` An array of `Transform<OutT, unknown>` to be disconnected to this `Transform`.
 
 Returns: `<Transform<InT, OutT>>`
 
-**transform.write(data: InT)**
+**protected transform.write(data: InT)**
 - data `<InT>` Data to write to the writable side of the stream.
 
 Returns: `<Promise<void>>`
