@@ -1,5 +1,5 @@
 import * as s from 'node:stream';
-import { Transform } from '../transform.js';
+import { Transform, $queue } from '../transform.js';
 
 export interface JSONToObjectOptions {
     reviver?: (this: unknown, key: string, value: unknown) => unknown;
@@ -7,7 +7,7 @@ export interface JSONToObjectOptions {
 
 export class JSONToObject<OutT = object> extends Transform<string, OutT> {
 
-    public _queue: string = '';
+    public buffer: string = '';
 
     constructor({ reviver }: JSONToObjectOptions = {}, options?: s.TransformOptions) {
         super(new s.Transform({
@@ -16,19 +16,19 @@ export class JSONToObject<OutT = object> extends Transform<string, OutT> {
                 readableObjectMode: true,
                 transform: async (chunk: string, _encoding: BufferEncoding, callback: s.TransformCallback) => {
                     try {
-                        const obj = JSON.parse(this._queue + chunk, reviver);
+                        const obj = JSON.parse(this.buffer + chunk, reviver);
                         callback(null, obj);
-                        this._queue = '';
+                        this.buffer = '';
                     }
                     catch(err) {
-                        this._queue = this.queue + chunk;
+                        this.buffer = this[$queue] + chunk;
                         callback();
                     }
                 }
             }
         }));
 
-        this._queue = '';
+        this.buffer = '';
     }
 
     async write(data: string): Promise<void> {
