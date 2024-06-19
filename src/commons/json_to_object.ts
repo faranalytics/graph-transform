@@ -10,7 +10,7 @@ export class JSONToObject<OutT = object> extends Transform<string, OutT> {
     constructor({ reviver }: JSONToObjectOptions = {}, options?: s.TransformOptions) {
         super(new s.Transform({
             ...options, ...{
-                writableObjectMode: false,
+                writableObjectMode: true,
                 readableObjectMode: true,
                 transform: async (chunk: string, _encoding: BufferEncoding, callback: s.TransformCallback) => {
                     callback(null, JSON.parse(chunk, reviver));

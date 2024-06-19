@@ -11,7 +11,7 @@ export class StringToBuffer extends Transform<string, Buffer> {
         super(new s.Transform({
             ...options, ...{
                 writableObjectMode: false,
-                readableObjectMode: true,
+                readableObjectMode: false,
                 transform: async (chunk: string, _encoding: BufferEncoding, callback: s.TransformCallback) => {
                     callback(null, Buffer.from(chunk, _encoding ?? encoding));
                 }

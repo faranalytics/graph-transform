@@ -13,7 +13,7 @@ export class ObjectToJSON<InT = any> extends Transform<InT, string> {
         super(new s.Transform({
             ...options, ...{
                 writableObjectMode: true,
-                readableObjectMode: false,
+                readableObjectMode: true,
                 transform: async (chunk: object, _encoding: BufferEncoding, callback: s.TransformCallback) => {
                     callback(null, JSON.stringify(chunk, replacer, space));
                 }
