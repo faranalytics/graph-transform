@@ -4,7 +4,7 @@ import { TemporalTransform } from './temporal_transform.js';
 // import { NullTransform } from './null_transform.js';
 
 class Greeter {
-    public greeting: string = 'Hello, World!'.repeat(1e4);
+    public greeting: string = 'Hello, World!'.repeat(1e1);
 }
 
 async function test1() {
