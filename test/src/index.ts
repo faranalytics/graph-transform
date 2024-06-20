@@ -43,7 +43,6 @@ async function test1() {
 
     transform.write(new Greeter());
     transform.write(new Greeter());
-
 }
 
 
@@ -53,29 +52,4 @@ function main() {
 }
 
 main();
-
-// async function test2() {
-
-//     const stringToBuffer = new StringToBuffer();
-//     const bufferToString = new BufferToString();
-//     const nullTransform = new NullTransform();
-
-//     net.createServer((socket: net.Socket) => socket.pipe(socket)).listen(3001);
-//     const socket = net.createConnection({ port: 3001 });
-//     await new Promise((r, e) => socket.once('connect', r).once('error', e));
-//     const socketHandler = new Transform<Buffer, Buffer>(socket);
-
-//     const transform = stringToBuffer.connect(
-//         socketHandler.connect(
-//             bufferToString.connect(
-//                 nullTransform
-//             )
-//         )
-//     );
-
-//     transform.write('0'.repeat(1e6));
-//     transform.write('0'.repeat(1e6));
-// }
-
-
 
