@@ -46,17 +46,17 @@ public **transform.size**
 - `<number>`
 The size of the queue.  For object mode streams `transform.size` is equal to the number of logged objects.  For streams not in object mode, `transform.size` is calculated using the `length` property of the logged `string` or `Buffer`.
 
-**public transform.connect\<T extends Transform\<OutT, unknown\>\>(...transforms)**
+public **transform.connect\<T extends Transform\<OutT, unknown\>\>(...transforms)**
 - transforms `<Array<T>>` An array of `Transform<OutT, unknown>` to be connected to this `Transform`.
 
 Returns: `<Transform<InT, OutT>>`
 
-**public transform.disconnect\<T extends Transform\<OutT, unknown\>\>(...transforms)**
+public **transform.disconnect\<T extends Transform\<OutT, unknown\>\>(...transforms)**
 - transforms `<Array<T>>` An array of `Transform<OutT, unknown>` to be disconnected from this `Transform`.
 
 Returns: `<Transform<InT, OutT>>`
 
-**protected transform.write(data)**
+protected **transform.write(data)**
 - data `<InT>` Data to write to the writable side of the stream.
 
 Returns: `<Promise<void>>`
