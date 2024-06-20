@@ -48,7 +48,6 @@ async function test1() {
 
 function main() {
     test1();
-    // test2();
 }
 
 main();
