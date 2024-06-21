@@ -17,9 +17,12 @@ Graph-Transform provides an intuitive framework for constructing data tansformat
 
 - [Installation](#installation)
 - [Concepts](#concepts)
+- [Examples]
+    - [A Graph API Pattern Logger Implementation](#a-graph-api-pattern-logger-implementation)
 - [API](#api)
-- [How to Implement a Transform](#how-to-implement-a-transform)
-- [How to Consume a Readable, Writable, Duplex, or Transform Node.js Stream](#how-to-consume-a-readable-writable-duplex-or-transform-nodejs-stream)
+- [How Tos](#how-tos)
+    - [How to Implement a Transform](#how-to-implement-a-transform)
+    - [How to Consume a Readable, Writable, Duplex, or Transform Node.js Stream](#how-to-consume-a-readable-writable-duplex-or-transform-nodejs-stream)
 - [Backpressue](#backpressure)
 - [Best Practices](#best-practices)
 
@@ -34,6 +37,11 @@ npm install graph-transform
 ### Transform
 
 A `Transform` is a node in a graph-like data pipeline. Each `Transform` is reponsible for transforming its inputs into an output that can be consumed by its connected `Transforms`.  By successively connecting `Transforms` into a network of data transformations, sophisticated graph-like pipelines can be constructed.
+
+## Examples
+
+### *A Graph API Pattern Logger Implementation* <sup><sup>(example)</sup></sup>
+Please see the [Streams Logger](https://github.com/faranalytics/streams-logger) implementation.
 
 ## API
 
@@ -61,7 +69,9 @@ Returns: `<Transform<InT, OutT>>`
 
 Returns: `<Promise<void>>`
 
-## How to Implement a Transform
+## How-Tos
+
+### How to Implement a Transform
 
 In order to implement a `Transform`, extend the `graph-transform.Transform` class and pass a Node.js `stream.Transform` implementation to the super's constructor.  
 
@@ -87,7 +97,7 @@ class StringToNumber extends Transform<string, number> {
 }
 ```
 
-## How to Consume a Readable, Writable, Duplex, or Transform Node.js Stream
+### How to Consume a Readable, Writable, Duplex, or Transform Node.js Stream
 
 In this hypothetical example a type-safe `Transform` is constructed from a `net.Socket`.  The resulting `Transform` instance can be used in a data transformation graph.
 
