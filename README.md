@@ -50,9 +50,9 @@ Please see the [Streams Logger](https://github.com/faranalytics/streams-logger) 
 **new graph-transform.Transform\<InT, OutT\>(stream)**
 - `stream` `<stream.Writable | stream.Readable>` An instance of a `Writable`, `Readable`, `Duplex`, or `Transform` Node.js stream.
 
-*public* **transform.size**
+*protected* **transform[$size]**
 - `<number>`
-The size of the queue.  For object mode streams `transform.size` is equal to the number of logged objects.  For streams not in object mode, `transform.size` is calculated using the `length` property of the logged `string` or `Buffer`.
+The size of the queue.  For object mode streams `transform[$size]` is equal to the number of logged objects.  For streams not in object mode, `transform[$size]` is calculated using the `length` property of the logged `string` or `Buffer`.
 
 *public* **transform.connect\<T extends Transform\<OutT, unknown\>\>(...transforms)**
 - transforms `<Array<T>>` An array of `Transform<OutT, unknown>` to be connected to this `Transform`.
@@ -64,7 +64,7 @@ Returns: `<Transform<InT, OutT>>`
 
 Returns: `<Transform<InT, OutT>>`
 
-*protected* **transform.write(data)**
+*protected* **transform[$write](data)**
 - data `<InT>` Data to write to the writable side of the stream.
 
 Returns: `<Promise<void>>`
@@ -109,7 +109,7 @@ const socketHandler = new Transform<Buffer, Buffer>(socket);
 ```
 
 ## Backpressure
-Graph-Transform respects backpressue; when a stream is draining it will queue messages until a `drain` event is emitted by the `Transform's` stream.  On each call to `transform.write` the `transform.size` property will be synchronously incremented in order to reflect the current size of the queue.  For object mode streams `transform.size` is equal to the number of logged objects.  For streams not in object mode, `transform.size` is calculated using the `length` property of the logged `string` or `Buffer`.  Your application can optionally monitor the size of the queue and respond appropriately.
+Graph-Transform respects backpressue; when a stream is draining it will queue messages until a `drain` event is emitted by the `Transform's` stream.  On each call to `transform[$write]` the `transform[$size]` property will be synchronously incremented in order to reflect the current size of the queue.  For object mode streams `transform[$size]` is equal to the number of logged objects.  For streams not in object mode, `transform[$size]` is calculated using the `length` property of the logged `string` or `Buffer`.  Your application can optionally monitor the size of the queue and respond appropriately.
 
 If you have a stream that is backpressuring, you can increase the high water mark on the stream in order to mitigate drain events.
 

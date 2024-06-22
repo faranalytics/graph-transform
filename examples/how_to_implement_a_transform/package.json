@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "how_to_implement_a_transform",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",
@@ -14,7 +14,7 @@
   "license": "MIT",
   "engines": {
     "npm": ">=10.2.3",
-    "node": ">=18.19.0"
+    "node": ">=18.18.0"
   },
   "dependencies": {
     "graph-transform": "~0.0.1"
