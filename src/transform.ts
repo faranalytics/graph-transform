@@ -18,7 +18,6 @@ export class Transform<InT, OutT> {
         this[$queue] = [];
         this[$connected] = false;
         this[$size] = 0;
-
         this[$stream].once('error', console.error);
     }
 
