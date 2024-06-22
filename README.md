@@ -18,7 +18,7 @@ Graph-Transform provides an intuitive framework for constructing data transforma
 - [Installation](#installation)
 - [Concepts](#concepts)
 - [Examples](#examples)
-    - [A Graph-API-Pattern Logger Implementation](#a-graph-api-pattern-logger-implementation-example)
+    - [*A Graph-API-Pattern Logger Implementation*](#a-graph-api-pattern-logger-implementation-example)
 - [API](#api)
 - [How-Tos](#how-tos)
     - [How to Implement a Transform](#how-to-implement-a-transform)
