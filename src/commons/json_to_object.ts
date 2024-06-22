@@ -1,5 +1,5 @@
 import * as s from 'node:stream';
-import { Transform, $queue } from '../transform.js';
+import { Transform, $queue, $write } from '../transform.js';
 
 export interface JSONToObjectOptions {
     reviver?: (this: unknown, key: string, value: unknown) => unknown;
@@ -32,6 +32,6 @@ export class JSONToObject<OutT = object> extends Transform<string, OutT> {
     }
 
     async write(data: string): Promise<void> {
-        await super.write(data);
+        await super[$write](data);
     }
 }

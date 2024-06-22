@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as s from 'node:stream';
-import { Transform } from '../transform.js';
+import { $write, Transform } from '../transform.js';
 
 export interface ObjectToJSONOptions {
     replacer?: (this: unknown, key: string, value: unknown) => unknown;
@@ -22,6 +22,6 @@ export class ObjectToJSON<InT = any> extends Transform<InT, string> {
     }
 
     async write(data: InT): Promise<void> {
-        await super.write(data);
+        await super[$write](data);
     }
 }

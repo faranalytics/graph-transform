@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as s from 'node:stream';
-import { Transform } from 'graph-transform';
+import { $write, Transform } from 'graph-transform';
 
 
 export class NullTransform extends Transform<any, any> {
@@ -17,6 +17,6 @@ export class NullTransform extends Transform<any, any> {
     }
 
     async write(data: any): Promise<void> {
-        await super.write(data);
+        await super[$write](data);
     }
 }

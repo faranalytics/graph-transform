@@ -1,7 +1,7 @@
 // eslint-disable-next-line quotes
 import * as s from "node:stream";
 import { StringDecoder } from 'node:string_decoder';
-import { Transform } from '../transform.js';
+import { $write, Transform } from '../transform.js';
 
 export interface BufferToStringOptions {
     encoding?: BufferEncoding;
@@ -26,6 +26,6 @@ export class BufferToString extends Transform<Buffer, string> {
     }
 
     async write(data: Buffer): Promise<void> {
-        await super.write(data);
+        await super[$write](data);
     }
 }

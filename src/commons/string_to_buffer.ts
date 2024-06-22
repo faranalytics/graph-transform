@@ -1,5 +1,5 @@
 import * as s from 'node:stream';
-import { Transform } from '../transform.js';
+import { $write, Transform } from '../transform.js';
 
 export interface StringToBufferOptions {
     encoding?: BufferEncoding;
@@ -20,6 +20,6 @@ export class StringToBuffer extends Transform<string, Buffer> {
     }
 
     async write(data: string): Promise<void> {
-        await super.write(data);
+        await super[$write](data);
     }
 }
