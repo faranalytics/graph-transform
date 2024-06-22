@@ -4,7 +4,7 @@ Graph-Transform provides a framework for building type-safe data transformation 
 
 ## Introduction
 
-Graph-Transform provides an intuitive framework for constructing data tansformation graphs using native Node.js streams.  You can use the built-in library of commonly used `Transforms` or implement your own.
+Graph-Transform provides an intuitive framework for constructing data transformation graphs using native Node.js streams.  You can use the built-in library of commonly used `Transforms` or implement your own.
 
 ### Features
 
@@ -20,10 +20,10 @@ Graph-Transform provides an intuitive framework for constructing data tansformat
 - [Examples](#examples)
     - [A Graph-API-Pattern Logger Implementation](#a-graph-api-pattern-logger-implementation-example)
 - [API](#api)
-- [How Tos](#how-tos)
+- [How-Tos](#how-tos)
     - [How to Implement a Transform](#how-to-implement-a-transform)
     - [How to Consume a Readable, Writable, Duplex, or Transform Node.js Stream](#how-to-consume-a-readable-writable-duplex-or-transform-nodejs-stream)
-- [Backpressue](#backpressure)
+- [Backpressure](#backpressure)
 - [Best Practices](#best-practices)
 
 ## Installation
@@ -36,7 +36,7 @@ npm install graph-transform
 
 ### Transform
 
-A `Transform` is a node in a graph-like data pipeline. Each `Transform` is reponsible for transforming its inputs into an output that can be consumed by its connected `Transforms`.  By successively connecting `Transforms` into a network of data transformations, sophisticated graph-like pipelines can be constructed.
+A `Transform` is a node in a graph-like data pipeline. Each `Transform` is responsible for transforming its inputs into an output that can be consumed by its connected `Transforms`.  By successively connecting `Transforms` into a network of data transformations, sophisticated graph-like pipelines can be constructed.
 
 ## Examples
 
