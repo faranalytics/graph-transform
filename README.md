@@ -64,7 +64,7 @@ Returns: `<Transform<InT, OutT>>`
 
 Returns: `<Transform<InT, OutT>>`
 
-*protected* **transform[$write](data)**
+*protected* **transform\[$write\](data)**
 - data `<InT>` Data to write to the writable side of the stream.
 
 Returns: `<Promise<void>>`
