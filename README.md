@@ -50,7 +50,7 @@ Please see the [Streams Logger](https://github.com/faranalytics/streams-logger) 
 **new graph-transform.Transform\<InT, OutT\>(stream)**
 - `stream` `<stream.Writable | stream.Readable>` An instance of a `Writable`, `Readable`, `Duplex`, or `Transform` Node.js stream.
 
-*protected* **transform[$size]**
+*protected* **transform\[$size\]**
 - `<number>`
 The size of the queue.  For object mode streams `transform[$size]` is equal to the number of logged objects.  For streams not in object mode, `transform[$size]` is calculated using the `length` property of the logged `string` or `Buffer`.
 
