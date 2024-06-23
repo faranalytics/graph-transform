@@ -68,7 +68,10 @@ export class Transform<InT, OutT> {
                     this[$size] = this[$size] - 1;
                 }
                 if (!this[$stream].write(data, encoding ?? 'utf-8')) {
-                    await new Promise((r) => this[$stream].once('drain', r));
+                    await new Promise((r, e) => this[$stream].once('drain', () => {
+                        r(null);
+                        this[$stream].removeListener('error', e);
+                    }).once('error', e));
                 }
             }
         }
