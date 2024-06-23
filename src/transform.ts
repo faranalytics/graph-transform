@@ -51,8 +51,8 @@ export class Transform<InT, OutT> {
     }
 
     protected async [$write](data: InT, encoding?: BufferEncoding): Promise<void> {
-        if (this[$stream] instanceof s.Writable) {
-            if (!this[$stream].closed && !this[$stream].writableNeedDrain) {
+        if (!this[$stream].closed && this[$stream] instanceof s.Writable) {
+            if (!this[$stream].writableNeedDrain) {
                 if (this[$queue].length === 0) {
                     this[$stream].write(data, encoding ?? 'utf-8');
                 }
