@@ -51,32 +51,45 @@ export class Transform<InT, OutT> {
     }
 
     protected async [$write](data: InT, encoding?: BufferEncoding): Promise<void> {
-        if (!this[$stream].closed && this[$stream] instanceof s.Writable && !this[$stream].writableNeedDrain) {
-            this[$queue].push(data);
-            if (!this[$stream].writableObjectMode && (data instanceof Buffer || typeof data == 'string')) {
-                this[$size] = this[$size] + data.length;
-            }
-            else {
-                this[$size] = this[$size] + 1;
-            }
-            while (this[$queue].length) {
-                const data = this[$queue].shift();
-                if (!this[$stream].writableObjectMode && (data instanceof Buffer || typeof data == 'string')) {
-                    this[$size] = this[$size] - data.length;
+        if (this[$stream] instanceof s.Writable) {
+            if (!this[$stream].closed && !this[$stream].writableNeedDrain) {
+                if (this[$queue].length === 0) {
+                    this[$stream].write(data, encoding ?? 'utf-8');
                 }
                 else {
-                    this[$size] = this[$size] - 1;
-                }
-                if (!this[$stream].write(data, encoding ?? 'utf-8')) {
-                    await new Promise((r, e) => this[$stream].once('drain', () => {
-                        r(null);
-                        this[$stream].removeListener('error', e);
-                    }).once('error', e));
+                    this[$queue].push(data);
+                    if (!this[$stream].writableObjectMode && (data instanceof Buffer || typeof data == 'string')) {
+                        this[$size] = this[$size] + data.length;
+                    }
+                    else {
+                        this[$size] = this[$size] + 1;
+                    }
+                    while (this[$queue].length) {
+                        const data = this[$queue].shift();
+                        if (!this[$stream].writableObjectMode && (data instanceof Buffer || typeof data == 'string')) {
+                            this[$size] = this[$size] - data.length;
+                        }
+                        else {
+                            this[$size] = this[$size] - 1;
+                        }
+                        if (!this[$stream].write(data, encoding ?? 'utf-8')) {
+                            await new Promise((r, e) => this[$stream].once('drain', () => {
+                                r(null);
+                                this[$stream].removeListener('error', e);
+                            }).once('error', e));
+                        }
+                    }
                 }
             }
-        }
-        else {
-            this[$queue].push(data);
+            else {
+                this[$queue].push(data);
+                if (!this[$stream].writableObjectMode && (data instanceof Buffer || typeof data == 'string')) {
+                    this[$size] = this[$size] + data.length;
+                }
+                else {
+                    this[$size] = this[$size] + 1;
+                }
+            }
         }
     }
 }
