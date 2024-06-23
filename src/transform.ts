@@ -2,7 +2,8 @@ import * as s from 'node:stream';
 
 export const $stream = Symbol('stream');
 export const $queue = Symbol('queue');
-export const $connected = Symbol('connected');
+export const $rhsConnected = Symbol('rhsConnected');
+export const $lhsConnected = Symbol('lhsConnected');
 export const $size = Symbol('size');
 export const $write = Symbol('write');
 
@@ -10,13 +11,15 @@ export class Transform<InT, OutT> {
 
     protected [$stream]: s.Writable | s.Readable;
     protected [$queue]: Array<InT>;
-    protected [$connected]: boolean;
+    protected [$rhsConnected]: boolean;
+    protected [$lhsConnected]: boolean;
     protected [$size]: number;
 
     constructor(stream: s.Writable | s.Readable) {
         this[$stream] = stream;
         this[$queue] = [];
-        this[$connected] = false;
+        this[$rhsConnected] = false;
+        this[$lhsConnected] = false;
         this[$size] = 0;
         this[$stream].once('error', console.error);
     }
@@ -25,6 +28,7 @@ export class Transform<InT, OutT> {
         for (const transform of transforms) {
             if (this[$stream] instanceof s.Readable && transform[$stream] instanceof s.Writable) {
                 this[$stream]?.pipe(transform[$stream]);
+                transform[$lhsConnected] = true;
                 this[$stream].once('error', transform[$stream].destroy);
                 transform[$stream].once('error', () => {
                     if (this[$stream] instanceof s.Readable && transform[$stream] instanceof s.Writable) {
@@ -33,7 +37,7 @@ export class Transform<InT, OutT> {
                 });
             }
         }
-        this[$connected] = true;
+        this[$rhsConnected] = true;
         return this;
     }
 
