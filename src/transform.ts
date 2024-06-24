@@ -54,7 +54,9 @@ export class Transform<InT, OutT> {
         if (!this[$stream].closed && this[$stream] instanceof s.Writable) {
             if (!this[$stream].writableNeedDrain) {
                 if (this[$queue].length === 0) {
-                    this[$stream].write(data, encoding ?? 'utf-8');
+                    if (!this[$stream].write(data, encoding ?? 'utf-8')) {
+                        await new Promise((r) => this[$stream].once('drain', r));
+                    }
                 }
                 else {
                     this[$queue].push(data);
@@ -64,23 +66,17 @@ export class Transform<InT, OutT> {
                     else {
                         this[$size] = this[$size] + 1;
                     }
-                    while (this[$queue].length) {
-                        const data = this[$queue].shift();
-                        if (!this[$stream].writableObjectMode && (data instanceof Buffer || typeof data == 'string')) {
-                            this[$size] = this[$size] - data.length;
-                        }
-                        else {
-                            this[$size] = this[$size] - 1;
-                        }
-                        if (!this[$stream].write(data, encoding ?? 'utf-8')) {
-                            await new Promise((r, e) => this[$stream].once('drain', () => {
-                                this[$stream].removeListener('error', e);
-                                r(null);
-                            }).once('error', (err: Error) => {
-                                this[$stream].removeListener('drain', r);
-                                e(err);
-                            }));
-                        }
+                }
+                while (this[$queue].length) {
+                    const data = this[$queue].shift();
+                    if (!this[$stream].writableObjectMode && (data instanceof Buffer || typeof data == 'string')) {
+                        this[$size] = this[$size] - data.length;
+                    }
+                    else {
+                        this[$size] = this[$size] - 1;
+                    }
+                    if (!this[$stream].write(data, encoding ?? 'utf-8')) {
+                        await new Promise((r) => this[$stream].once('drain', r));
                     }
                 }
             }
