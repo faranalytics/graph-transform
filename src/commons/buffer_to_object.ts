@@ -1,17 +1,17 @@
 import * as s from 'node:stream';
 import { Transform, $write, $stream } from '../transform.js';
 
-export interface ObjectToStringOptions {
-    encoding: NodeJS.BufferEncoding;
+export interface BufferToObjectOptions {
+    reviver?: (this: unknown, key: string, value: unknown) => unknown;
 }
 
-export class BufferToString extends Transform<Buffer, string> {
+export class BufferToObject<OutT = object> extends Transform<Buffer, OutT> {
 
     public ingressQueue: Buffer;
     public messageSize: number | null;
-    public encoding?: NodeJS.BufferEncoding;
+    public reviver?: (this: unknown, key: string, value: unknown) => unknown;
 
-    constructor({ encoding }: ObjectToStringOptions = {encoding:'utf-8'}, options?: s.TransformOptions) {
+    constructor({ reviver }: BufferToObjectOptions = {}, options?: s.TransformOptions) {
         super(new s.Transform({
             ...options, ...{
                 writableObjectMode: false,
@@ -35,7 +35,7 @@ export class BufferToString extends Transform<Buffer, string> {
                     while (this.ingressQueue.length >= this.messageSize) {
                         const buf = this.ingressQueue.subarray(6, this.messageSize);
                         this.ingressQueue = this.ingressQueue.subarray(this.messageSize, this.ingressQueue.length);
-                        const message = buf.toString(this.encoding);
+                        const message = this.deserializeMessage(buf);
 
                         if (this[$stream] instanceof s.Readable) {
                             this[$stream].push(message);
@@ -56,10 +56,14 @@ export class BufferToString extends Transform<Buffer, string> {
 
         this.ingressQueue = Buffer.allocUnsafe(0);
         this.messageSize = null;
-        this.encoding = encoding;
+        this.reviver = reviver;
     }
 
     async write(data: Buffer): Promise<void> {
         await super[$write](data);
+    }
+
+    protected deserializeMessage(data: Buffer): OutT {
+        return <OutT>JSON.parse(data.toString('utf-8'), this.reviver);
     }
 }
