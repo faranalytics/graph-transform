@@ -11,7 +11,7 @@ class Greeter {
 
 async function test1() {
 
-    const anyToTest = new AnyToTest(async (chunk: unknown, encoding: BufferEncoding, callback: (error?: Error | null | undefined) => void) => {
+    const anyToTest = new AnyToTest<string>(async (chunk: string, encoding: BufferEncoding, callback: (error?: Error | null | undefined) => void) => {
         if (typeof chunk != 'string') {
             chunk = JSON.stringify(chunk);
         }
