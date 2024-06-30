@@ -2,15 +2,18 @@
 import * as s from 'node:stream';
 import { $write, Transform } from '../transform.js';
 
-export class ConsoleHandler extends Transform<any, never> {
+export class AnyToTest extends Transform<any, never> {
 
-    constructor(options?: s.WritableOptions) {
+    constructor(test: string, options?: s.WritableOptions) {
         super(new s.Writable({
             ...options, ...{
                 objectMode: true,
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 write: async (chunk: unknown, encoding: BufferEncoding, callback: s.TransformCallback) => {
-                    console.log(chunk);
+                    if (typeof chunk != 'string') {
+                        chunk = JSON.stringify(chunk);
+                    }
+                    console.log(chunk == test);
                     callback();
                 }
             }

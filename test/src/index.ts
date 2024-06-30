@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as net from 'node:net';
-import { Transform, ObjectToBuffer, BufferToObject, ConsoleHandler, SocketHandler, BufferToString } from 'graph-transform';
+import { Transform, ObjectToBuffer, BufferToObject, ConsoleHandler, SocketHandler, BufferToString, AnyToTest } from 'graph-transform';
 
 class Greeter {
-    public greeting: string = '0'.repeat(1e4);
+    public greeting: string = '0'.repeat(1);
 }
 
 async function test1() {
@@ -13,6 +13,7 @@ async function test1() {
     const bufferToString = new BufferToString();
     const bufferToObject = new BufferToObject<Greeter>();
     const consoleHandler = new ConsoleHandler();
+    const anyToTest = new AnyToTest(JSON.stringify(new Greeter()));
 
     net.createServer((socket: net.Socket) => {
         const socketHandler1 = new SocketHandler<Greeter, Greeter>(socket);
@@ -31,7 +32,8 @@ async function test1() {
             socketHandler.connect(
                 objectToBuffer2.connect(
                     bufferToString.connect(
-                        consoleHandler
+                        consoleHandler,
+                        anyToTest
                     )
                 )
             )));
@@ -41,14 +43,4 @@ async function test1() {
     transform.write(new Greeter());
 }
 
-function main() {
-    test1();
-}
-
-main();
-
-function test(a: unknown) {
-
-}
-
-test(1);
+test1();

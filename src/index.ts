@@ -4,6 +4,8 @@ import { ObjectToBuffer } from './commons/object_to_buffer.js';
 import { BufferToString } from './commons/buffer_to_string.js';
 import { ConsoleHandler } from './commons/console_handler.js';
 import { SocketHandler } from './commons/socket_handler.js';
+import { AnyToTest } from './commons/any_to_test.js';
+
 export {
     Transform,
     BufferToObject,
@@ -11,6 +13,7 @@ export {
     BufferToString,
     ConsoleHandler,
     SocketHandler,
+    AnyToTest,
     $stream,
     $queue,
     $rhsConnected,
