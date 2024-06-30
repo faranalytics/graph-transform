@@ -30,7 +30,6 @@ async function test1() {
     const bufferToObject = new BufferToObject<Greeter>();
     const consoleHandler = new ConsoleHandler();
 
-
     net.createServer((socket: net.Socket) => {
         const socketHandler1 = new SocketHandler<Greeter, Greeter>(socket);
         const socketHandler2 = new SocketHandler<Greeter, Greeter>(socket);

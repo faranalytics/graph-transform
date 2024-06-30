@@ -24,7 +24,7 @@ export class Transform<InT, OutT> {
         this[$stream].once('error', console.error);
     }
 
-    public connect<T extends Transform<OutT, unknown>>(...transforms: Array<T>): typeof this {
+    public connect(...transforms: Array<Transform<OutT, unknown>>): typeof this {
         for (const transform of transforms) {
             if (this[$stream] instanceof s.Readable && transform[$stream] instanceof s.Writable) {
                 this[$stream]?.pipe(transform[$stream]);
@@ -41,7 +41,7 @@ export class Transform<InT, OutT> {
         return this;
     }
 
-    public disconnect<T extends Transform<OutT, unknown>>(...transforms: Array<T>): typeof this {
+    public disconnect(...transforms:  Array<Transform<OutT, unknown>>): typeof this {
         for (const transform of transforms) {
             if (this[$stream] instanceof s.Readable && transform[$stream] instanceof s.Writable) {
                 this[$stream].unpipe(transform[$stream]);
