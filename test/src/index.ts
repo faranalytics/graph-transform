@@ -3,7 +3,7 @@ import * as net from 'node:net';
 import { Transform, ObjectToBuffer, BufferToObject, ConsoleHandler, SocketHandler, BufferToString, AnyToTest } from 'graph-transform';
 
 class Greeter {
-    public greeting: string = '0'.repeat(1);
+    public greeting: string = '0'.repeat(1e6);
 }
 
 async function test1() {
