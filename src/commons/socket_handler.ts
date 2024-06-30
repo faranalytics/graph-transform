@@ -4,6 +4,7 @@ import * as net from 'node:net';
 import { Transform, $write, $stream } from '../transform.js';
 
 export interface SocketHandlerOptions {
+    socket: net.Socket;
     reviver?: (this: unknown, key: string, value: unknown) => unknown;
     replacer?: (this: unknown, key: string, value: unknown) => unknown;
     space?: string | number;
@@ -19,7 +20,7 @@ export class SocketHandler<InT extends object, OutT extends object> extends Tran
     public space?: string | number;
     public socket: net.Socket;
 
-    constructor(socket: net.Socket, { reviver, replacer, space }: SocketHandlerOptions = {}, options?: s.DuplexOptions) {
+    constructor({ socket, reviver, replacer, space }: SocketHandlerOptions, options?: s.DuplexOptions) {
         super(new s.Duplex({
             ...options, ...{
                 writableObjectMode: true,

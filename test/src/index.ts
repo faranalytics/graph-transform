@@ -11,7 +11,7 @@ class Greeter {
 
 async function test1() {
 
-    const anyToTest = new AnyToTest<string>(async (chunk: string, encoding: BufferEncoding, callback: (error?: Error | null | undefined) => void) => {
+    const suite = async (chunk: string, encoding: BufferEncoding, callback: (error?: Error | null | undefined) => void) => {
         if (typeof chunk != 'string') {
             chunk = JSON.stringify(chunk);
         }
@@ -21,7 +21,9 @@ async function test1() {
             });
         });
         callback();
-    });
+    };
+
+    const anyToTest = new AnyToTest<string>({ suite });
 
     const temporalTransform = new TemporalTransform({ time: 1000 });
     const objectToBuffer1 = new ObjectToBuffer<Greeter>();
@@ -31,16 +33,13 @@ async function test1() {
     const consoleHandler = new ConsoleHandler();
 
     net.createServer((socket: net.Socket) => {
-        const socketHandler1 = new SocketHandler<Greeter, Greeter>(socket);
-        const socketHandler2 = new SocketHandler<Greeter, Greeter>(socket);
-
+        const socketHandler1 = new SocketHandler<Greeter, Greeter>({ socket });
+        const socketHandler2 = new SocketHandler<Greeter, Greeter>({ socket });
         socketHandler1.connect(socketHandler2);
-
     }).listen(3000);
     const socket = net.createConnection({ port: 3000 });
     await new Promise((r, e) => socket.once('connect', r).once('error', e));
-    const socketHandler = new SocketHandler<Greeter, Greeter>(socket);
-
+    const socketHandler = new SocketHandler<Greeter, Greeter>({ socket });
 
     const transform = temporalTransform.connect(
         objectToBuffer1.connect(
