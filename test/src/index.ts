@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as net from 'node:net';
+import { once} from 'node:events';
 import { describe, test } from 'node:test';
 import * as assert from 'node:assert';
 import { Transform, ObjectToBuffer, BufferToObject, ConsoleHandler, SocketHandler, BufferToString, AnyToTest } from 'graph-transform';
@@ -38,7 +39,7 @@ async function test1() {
         socketHandler1.connect(socketHandler2);
     }).listen(3000);
     const socket = net.createConnection({ port: 3000 });
-    await new Promise((r, e) => socket.once('connect', r).once('error', e));
+    await once(socket, 'connect');
     const socketHandler = new SocketHandler<Greeter, Greeter>({ socket });
 
     const transform = temporalTransform.connect(
