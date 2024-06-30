@@ -1,26 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, test } from 'node:test';
-import * as assert from 'node:assert';
 import * as s from 'node:stream';
 import { $write, Transform } from '../transform.js';
 
+export interface AnyToTestSuite {
+    (chunk: unknown, encoding: BufferEncoding, callback: (error?: Error | null | undefined) => void): Promise<void>;
+}
+
 export class AnyToTest extends Transform<any, never> {
 
-    constructor(expected: string, options?: s.WritableOptions) {
+    constructor(suite: AnyToTestSuite, options?: s.WritableOptions) {
         super(new s.Writable({
             ...options, ...{
                 objectMode: true,
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                write: async (chunk: unknown, encoding: BufferEncoding, callback: s.TransformCallback) => {
-                    if (typeof chunk != 'string') {
-                        chunk = JSON.stringify(chunk);
-                    }
-                    await describe('Test.', async () => {
-                        await test('Assert that `chunk` is strictly equal to `expected`.', async () => {
-                            assert.strictEqual(chunk, expected);
-                        });
-                    });
-                    callback();
+                write: async (chunk: unknown, encoding: BufferEncoding, callback: (error?: Error | null | undefined) => void) => {
+                    await suite(chunk, encoding, callback);
                 }
             }
         }));

@@ -11,7 +11,7 @@ export class BufferToString extends Transform<Buffer, string> {
     public messageSize: number | null;
     public encoding?: NodeJS.BufferEncoding;
 
-    constructor({ encoding }: ObjectToStringOptions = {encoding:'utf-8'}, options?: s.TransformOptions) {
+    constructor({ encoding }: ObjectToStringOptions = { encoding: 'utf-8' }, options?: s.TransformOptions) {
         super(new s.Transform({
             ...options, ...{
                 writableObjectMode: false,
