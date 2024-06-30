@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { describe, test } from 'node:test';
+import * as assert from 'node:assert';
 import * as s from 'node:stream';
 import { $write, Transform } from '../transform.js';
 
 export class AnyToTest extends Transform<any, never> {
 
-    constructor(test: string, options?: s.WritableOptions) {
+    constructor(expected: string, options?: s.WritableOptions) {
         super(new s.Writable({
             ...options, ...{
                 objectMode: true,
@@ -13,7 +15,11 @@ export class AnyToTest extends Transform<any, never> {
                     if (typeof chunk != 'string') {
                         chunk = JSON.stringify(chunk);
                     }
-                    console.log(chunk == test);
+                    await describe('Test.', async () => {
+                        await test('Assert that `chunk` is strictly equal to `expected`.', async () => {
+                            assert.strictEqual(chunk, expected);
+                        });
+                    });
                     callback();
                 }
             }

@@ -50,7 +50,6 @@ export class SocketHandler<InT extends object, OutT extends object> extends Tran
         this.replacer = replacer;
         this.space = space;
         this.socket = socket;
-        this.messageSize = null;
 
         this.socket.on('data', (data: Buffer) => {
             this.ingressQueue = Buffer.concat([this.ingressQueue, data]);
@@ -83,11 +82,11 @@ export class SocketHandler<InT extends object, OutT extends object> extends Tran
         await super[$write](data);
     }
 
-    protected deserializeMessage(data: Buffer): OutT {
-        return <OutT>JSON.parse(data.toString('utf-8'), this.reviver);
-    }
-
     protected serializeMessage(message: InT): Buffer {
         return Buffer.from(JSON.stringify(message, this.replacer, this.space), 'utf-8');
+    }
+
+    protected deserializeMessage(data: Buffer): OutT {
+        return <OutT>JSON.parse(data.toString('utf-8'), this.reviver);
     }
 }

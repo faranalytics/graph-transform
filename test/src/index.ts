@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as net from 'node:net';
 import { Transform, ObjectToBuffer, BufferToObject, ConsoleHandler, SocketHandler, BufferToString, AnyToTest } from 'graph-transform';
+import { TemporalTransform } from './temporal_transform.js';
 
 class Greeter {
     public greeting: string = '0'.repeat(1e6);
@@ -8,6 +9,7 @@ class Greeter {
 
 async function test1() {
 
+    const temporalTransform = new TemporalTransform({ time: 1000 });
     const objectToBuffer1 = new ObjectToBuffer<Greeter>();
     const objectToBuffer2 = new ObjectToBuffer<Greeter>();
     const bufferToString = new BufferToString();
@@ -27,16 +29,20 @@ async function test1() {
     const socketHandler = new SocketHandler<Greeter, Greeter>(socket);
 
 
-    const transform = objectToBuffer1.connect(
-        bufferToObject.connect(
-            socketHandler.connect(
-                objectToBuffer2.connect(
-                    bufferToString.connect(
-                        consoleHandler,
-                        anyToTest
+    const transform = temporalTransform.connect(
+        objectToBuffer1.connect(
+            bufferToObject.connect(
+                socketHandler.connect(
+                    objectToBuffer2.connect(
+                        bufferToString.connect(
+                            consoleHandler,
+                            anyToTest
+                        )
                     )
                 )
-            )));
+            )
+        )
+    );
 
 
     transform.write(new Greeter());
