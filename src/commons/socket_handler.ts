@@ -10,7 +10,7 @@ export interface SocketHandlerOptions {
     space?: string | number;
 }
 
-export class SocketHandler<InT extends object, OutT extends object> extends Transform<InT, OutT> {
+export class SocketHandler<InT, OutT> extends Transform<InT, OutT> {
 
     public ingressQueue: Buffer;
     public egressQueue: Buffer;
@@ -20,9 +20,9 @@ export class SocketHandler<InT extends object, OutT extends object> extends Tran
     public space?: string | number;
     public socket: net.Socket;
 
-    constructor({ socket, reviver, replacer, space }: SocketHandlerOptions, options?: s.DuplexOptions) {
+    constructor({ socket, reviver, replacer, space }: SocketHandlerOptions, streamOptions?: s.DuplexOptions) {
         super(new s.Duplex({
-            ...options, ...{
+            ...streamOptions, ...{
                 writableObjectMode: true,
                 readableObjectMode: true,
                 read: (size: number) => {
